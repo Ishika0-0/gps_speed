@@ -49,11 +49,11 @@
         <h1>Real-Time GPS Tracker</h1>
         <div class="stat">
             <span>Speed:</span>
-            <span class="highlight" id="speed">0</span> km/h
+            <span class="highlight" id="speed">0</span> m/s
         </div>
         <div class="stat">
             <span>Total Distance:</span>
-            <span class="highlight" id="distance">0</span> km
+            <span class="highlight" id="distance">0</span> m
         </div>
         <div class="stat">
             <span>Timer:</span>
@@ -72,7 +72,7 @@
 
         // Function to calculate the distance between two points using the Haversine formula
         function haversine(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Radius of Earth in km
+            const R = 6371000; // Radius of Earth in meters
             const toRad = (value) => (value * Math.PI) / 180;
             const dLat = toRad(lat2 - lat1);
             const dLon = toRad(lon2 - lon1);
@@ -81,7 +81,7 @@
                       Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
                       Math.sin(dLon / 2) ** 2;
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return R * c; // Distance in km
+            return R * c; // Distance in meters
         }
 
         // Function to update the timer
@@ -109,8 +109,8 @@
                 const prevTime = previousPosition.timestamp;
 
                 const distance = haversine(prevLat, prevLon, latitude, longitude);
-                const timeDifference = (timestamp - prevTime) / 1000 / 3600; // Hours
-                const speed = distance / timeDifference || 0;
+                const timeDifference = (timestamp - prevTime) / 1000; // Time in seconds
+                const speed = distance / timeDifference || 0; // Speed in m/s
 
                 totalDistance += distance;
 
